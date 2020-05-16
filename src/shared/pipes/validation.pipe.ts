@@ -1,6 +1,7 @@
 import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
+import { BadRequest } from '@src/shared/utils';
 
 export class ValidationPipe implements PipeTransform {
   async transform(value: any, { metatype }: ArgumentMetadata) {
@@ -10,7 +11,8 @@ export class ValidationPipe implements PipeTransform {
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
     if (errors.length > 0) {
-      throw new BadRequestException('Validation failed');
+      const firstErrorObject = errors[0].constraints;
+      BadRequest(Object.values(firstErrorObject)[0]);
     }
     return value;
   }
