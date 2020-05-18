@@ -10,7 +10,7 @@ import {
 import { MongoError } from 'mongodb';
 import { Error } from 'mongoose';
 import { Logger } from 'winston';
-import { BaseResponseModel } from '@src/shared/models';
+import { BaseResponseModel } from '@/shared/models';
 
 @Catch()
 @Injectable()

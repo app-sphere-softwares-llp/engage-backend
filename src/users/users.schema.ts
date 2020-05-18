@@ -1,9 +1,9 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types, Document } from 'mongoose';
+import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { BaseSchema } from '@/shared/schema';
 
-@Schema()
-export class User extends Document {
+export class User extends BaseSchema {
   @ApiProperty()
   @Prop()
   name: string;
@@ -31,10 +31,6 @@ export class User extends Document {
   @ApiProperty()
   @Prop()
   projects: Types.ObjectId[];
-
-  @ApiProperty()
-  @Prop()
-  isDeleted: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

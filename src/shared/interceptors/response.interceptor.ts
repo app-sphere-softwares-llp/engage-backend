@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { BaseResponseModel } from '@src/shared/models';
+import { BaseResponseModel } from '@/shared/models';
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, BaseResponseModel<T>> {
