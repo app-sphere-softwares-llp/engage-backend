@@ -1,6 +1,6 @@
 import { ClientSession, Document, DocumentQuery, FilterQuery, Model, UpdateQuery } from 'mongoose';
-import { DEFAULT_QUERY_FILTER, MAX_TRANSACTION_RETRY_TIMEOUT } from '@src/shared/constants';
-import { QueryModel } from '@src/shared/models';
+import { DEFAULT_QUERY_FILTER, MAX_TRANSACTION_RETRY_TIMEOUT } from '@/shared/constants';
+import { QueryModel } from '@/shared/models';
 
 export class BaseService<T extends Document> {
   constructor(private model: Model<T>) {

@@ -23,4 +23,12 @@ export class BaseSchema extends Document {
   @ApiProperty()
   @Prop()
   deletedAt: Date;
+
+  @ApiProperty()
+  @Prop()
+  version: string;
+
+  @ApiProperty()
+  @Prop()
+  lastSyncTime: Date;
 }

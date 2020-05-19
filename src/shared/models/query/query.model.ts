@@ -1,4 +1,4 @@
-import { QuerySortByEnum } from '../enums';
+import { QuerySortByEnum } from '../../enums';
 import { DEFAULT_PAGINATED_ITEMS_COUNT } from '@/shared/constants';
 
 export class QueryModel {

@@ -5,14 +5,14 @@ import { EasyconfigModule } from 'nestjs-easyconfig';
 import { WinstonModule } from 'nest-winston';
 import { HeaderResolver, I18nJsonParser, I18nModule } from 'nestjs-i18n';
 import * as winston from 'winston';
-import { resolvePath } from '@src/shared/utils';
+import { resolvePath } from '@/shared/utils';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DEFAULT_TRANSLATION_LANGUAGE } from '@src/shared/constants';
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
-import { ResponseInterceptor } from '@src/shared/interceptors';
-import { GenericExceptionFilter } from '@src/shared/filters';
-import { ValidationPipe } from '@src/shared/pipes';
+import { DEFAULT_TRANSLATION_LANGUAGE } from '@/shared/constants';
+import { APP_FILTER } from '@nestjs/core';
+import { GenericExceptionFilter } from '@/shared/filters';
 import { UsersModule } from './users/users.module';
+import { ProjectsModule } from '@/projects/projects.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -42,6 +42,8 @@ import { UsersModule } from './users/users.module';
       ],
     }),
     UsersModule,
+    ProjectsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
