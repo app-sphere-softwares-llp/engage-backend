@@ -1,3 +1,6 @@
+// jwt secret key
+export const JWT_SECRET_KEY = 'engage';
+
 // default query filter
 export const DEFAULT_QUERY_FILTER = {
   isDeleted: false,

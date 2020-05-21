@@ -18,3 +18,7 @@ export class BaseErrorMessageClass {
   public message: string;
   public type: string;
 }
+
+export class JwtResponse {
+  accessToken: string;
+}

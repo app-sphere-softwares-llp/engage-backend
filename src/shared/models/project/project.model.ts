@@ -15,5 +15,5 @@ export class ProjectMember extends ProjectDefaultSettings {
   tags: string[];
   totalTrackedTime: number;
   costToProject: number;
-  domain: string[];
+  workDomains: string[];
 }

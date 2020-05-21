@@ -1,5 +1,5 @@
 export enum ProjectMemberTypeEnum {
-  Admin,
-  SuperWiser,
-  Worker
+  Owner,
+  Member,
+  ProjectManager
 }

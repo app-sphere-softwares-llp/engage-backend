@@ -1,9 +1,10 @@
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseSchema } from '@/shared/schema';
-import { UserStatus } from '@/shared/enums';
+import { UserLoginProvider, UserStatus } from '@/shared/enums';
 
+@Schema({ timestamps: true, id: true, toJSON: { virtuals: true, getters: true, versionKey: false } })
 export class User extends BaseSchema {
   @ApiProperty()
   @Prop()
@@ -34,8 +35,11 @@ export class User extends BaseSchema {
   projects: Types.ObjectId[];
 
   @ApiProperty()
-  @Prop({ type: String, enum: Object.values(UserStatus), required: ['User Status is required'] })
+  @Prop({ type: Number, enum: Object.values(UserStatus), required: ['User Status is required'] })
   status: UserStatus;
+
+  @Prop({ type: Number, enum: Object.values(UserLoginProvider) })
+  loginProvider: UserLoginProvider;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

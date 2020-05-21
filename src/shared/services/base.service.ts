@@ -53,8 +53,8 @@ export class BaseService<T extends Document> {
    * @param doc
    * @param session
    */
-  public async create(doc: any | any[], session: ClientSession): Promise<T | T[]> {
-    return await this.model.create(doc, { session });
+  public async create(doc: any, session: ClientSession): Promise<T | T[]> {
+    return await this.model.create((Array.isArray(doc) ? doc : [doc]), { session });
   }
 
   /**

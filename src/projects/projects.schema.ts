@@ -2,6 +2,7 @@ import { BaseSchema } from '@/shared/schema';
 import { ApiProperty } from '@nestjs/swagger';
 import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import { ProjectDefaultSettings, ProjectMember } from '@/shared/models';
+import { Types } from 'mongoose';
 
 export class Project extends BaseSchema {
   @ApiProperty()
@@ -26,10 +27,6 @@ export class Project extends BaseSchema {
 
   @ApiProperty()
   @Prop()
-  totalEstimatedTime: number;
-
-  @ApiProperty()
-  @Prop()
   totalTrackedTime: number;
 
   @ApiProperty()
@@ -51,6 +48,9 @@ export class Project extends BaseSchema {
   @ApiProperty()
   @Prop({ type: Array, default: [] })
   members: ProjectMember[];
+
+  @Prop({ required: ['Created by is required'] })
+  createdById: Types.ObjectId;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

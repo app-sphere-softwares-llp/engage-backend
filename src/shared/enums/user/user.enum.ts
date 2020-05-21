@@ -5,3 +5,8 @@ export enum UserStatus {
   Left,
   InActive
 }
+
+export enum UserLoginProvider {
+  Web,
+  Google
+}
