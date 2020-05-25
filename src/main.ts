@@ -19,7 +19,7 @@ async function bootstrap() {
     .addTag('engage')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   // listen on port
   await app.listen(process.env.port || 3000);

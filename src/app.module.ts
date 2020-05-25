@@ -13,6 +13,9 @@ import { GenericExceptionFilter } from '@/shared/filters';
 import { UsersModule } from './users/users.module';
 import { ProjectsModule } from '@/projects/projects.module';
 import { AuthModule } from './auth/auth.module';
+import * as path from 'path';
+import i18next from 'i18next';
+
 
 @Module({
   imports: [
@@ -30,17 +33,17 @@ import { AuthModule } from './auth/auth.module';
         }),
       ],
     }),
-    I18nModule.forRoot({
-      fallbackLanguage: DEFAULT_TRANSLATION_LANGUAGE,
-      parser: I18nJsonParser,
-      parserOptions: {
-        path: resolvePath('/i18n/'),
-        watch: true,
-      },
-      resolvers: [
-        new HeaderResolver(['x-local-lang']),
-      ],
-    }),
+    // I18nModule.forRoot({
+    //   fallbackLanguage: 'en',
+    //   parser: I18nJsonParser,
+    //   parserOptions: {
+    //     path: path.join(`${__dirname}/i18n/`),
+    //     watch: true,
+    //   },
+    //   resolvers: [
+    //     new HeaderResolver(['x-local-lang']),
+    //   ],
+    // }),
     UsersModule,
     ProjectsModule,
     AuthModule,
@@ -55,4 +58,13 @@ import { AuthModule } from './auth/auth.module';
   ],
 })
 export class AppModule {
+
+  constructor() {
+    i18next.init({
+      lng: DEFAULT_TRANSLATION_LANGUAGE,
+      debug: true,
+      ns: ['']
+    })
+  }
+
 }

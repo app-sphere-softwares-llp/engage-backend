@@ -11,6 +11,7 @@ import { MongoError } from 'mongodb';
 import { Error } from 'mongoose';
 import { Logger } from 'winston';
 import { BaseResponseModel } from '@/shared/models';
+import { I18nRequestScopeService, I18nService } from 'nestjs-i18n';
 
 @Catch()
 @Injectable()
@@ -19,7 +20,7 @@ export class GenericExceptionFilter implements ExceptionFilter {
 
   }
 
-  catch(exception: any, host: ArgumentsHost): any {
+  async catch(exception: any, host: ArgumentsHost): Promise<any> {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
 
@@ -102,9 +103,17 @@ export class GenericExceptionFilter implements ExceptionFilter {
 
     respModel.data = null;
     respModel.hasError = true;
-    respModel.message = respModel.errors[0].message;
 
-    response.status(respModel.status).json(respModel);
+    const tKey = respModel.errors[0].message.split('{')[0];
+    if (tKey.trim()) {
+      respModel.message = await this.i18nService.translate('VALIDATION_ERRORS.REQUIRED', {
+        lang: 'en',
+        // args: { field: respModel.errors[0].message.match(/\{([^}]+)\}/)[1] },
+      });
+    } else {
+      respModel.message = respModel.errors[0].message;
+    }
+    return response.status(respModel.status).json(respModel);
   }
 
 }
