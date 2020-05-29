@@ -3,8 +3,9 @@ import { Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseSchema } from '@/shared/schema';
 import { UserLoginProvider, UserStatus } from '@/shared/enums';
+import { DEFAULT_SCHEMA_OPTIONS } from '@/shared/constants';
 
-@Schema({ timestamps: true, id: true, toJSON: { virtuals: true, getters: true, versionKey: false } })
+@Schema(DEFAULT_SCHEMA_OPTIONS)
 export class User extends BaseSchema {
   @ApiProperty()
   @Prop()

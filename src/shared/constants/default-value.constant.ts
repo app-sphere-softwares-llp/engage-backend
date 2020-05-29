@@ -1,9 +1,18 @@
+import { SchemaOptions } from '@nestjs/mongoose';
+
 // jwt secret key
 export const JWT_SECRET_KEY = 'engage';
 
 // default query filter
 export const DEFAULT_QUERY_FILTER = {
   isDeleted: false,
+};
+
+// default schema options
+export const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
+  timestamps: true,
+  id: true,
+  toJSON: { virtuals: true, getters: true, versionKey: false },
 };
 
 // default paginated items count

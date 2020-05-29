@@ -1,55 +1,49 @@
 import { BaseSchema } from '@/shared/schema';
-import { ApiProperty } from '@nestjs/swagger';
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ProjectDefaultSettings, ProjectMember } from '@/shared/models';
 import { Types } from 'mongoose';
+import { DEFAULT_SCHEMA_OPTIONS } from '@/shared/constants';
+import { User } from '@/users/users.schema';
 
+@Schema(DEFAULT_SCHEMA_OPTIONS)
 export class Project extends BaseSchema {
-  @ApiProperty()
   @Prop()
   name: string;
 
-  @ApiProperty()
   @Prop()
   details: string;
 
-  @ApiProperty()
   @Prop()
   tags: string[];
 
-  @ApiProperty()
   @Prop()
   startDate: Date;
 
-  @ApiProperty()
   @Prop()
   endDate: Date;
 
-  @ApiProperty()
-  @Prop()
+  @Prop({ default: 0 })
   totalTrackedTime: number;
 
-  @ApiProperty()
-  @Prop()
+  @Prop({ default: 0 })
   totalCostOfProject: number;
 
-  @ApiProperty()
-  @Prop()
-  projectLogo: string;
+  @Prop({ default: 0 })
+  totalEstimatedTime: number;
 
-  @ApiProperty()
+  @Prop()
+  projectLogoUrl: string;
+
   @Prop()
   alias: string;
 
-  @ApiProperty()
   @Prop()
   defaultSettings: ProjectDefaultSettings;
 
-  @ApiProperty()
   @Prop({ type: Array, default: [] })
   members: ProjectMember[];
 
-  @Prop({ required: ['Created by is required'] })
+  @Prop({ required: ['Created by is required'], ref: User.name })
   createdById: Types.ObjectId;
 }
 

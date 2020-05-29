@@ -13,6 +13,10 @@ import { GenericExceptionFilter } from '@/shared/filters';
 import { UsersModule } from './users/users.module';
 import { ProjectsModule } from '@/projects/projects.module';
 import { AuthModule } from './auth/auth.module';
+import { ActivityModule } from './activity/activity.module';
+import { InvitationModule } from './invitation/invitation.module';
+import { AttachmentModule } from './attachment/attachment.module';
+import { ScreenshotModule } from './screenshot/screenshot.module';
 import * as path from 'path';
 import i18next from 'i18next';
 
@@ -47,6 +51,10 @@ import i18next from 'i18next';
     UsersModule,
     ProjectsModule,
     AuthModule,
+    ActivityModule,
+    InvitationModule,
+    AttachmentModule,
+    ScreenshotModule,
   ],
   controllers: [AppController],
   providers: [

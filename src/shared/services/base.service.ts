@@ -29,7 +29,7 @@ export class BaseService<T extends Document> {
    * @param id
    * @param model
    */
-  public async findById(id: string, model: QueryModel): Promise<T> {
+  public async findById(id: string, model?: QueryModel): Promise<T> {
     model.filter = {_id: id};
     const query = this.model.findOne({...model.filter, ...DEFAULT_QUERY_FILTER});
     this.queryBuilder(model, query);
