@@ -17,6 +17,9 @@ async function bootstrap() {
     .setDescription('The Engage API description')
     .setVersion('0.0.1')
     .addTag('engage')
+    .addBearerAuth()
+    // .addBearerAuth(
+    //   { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'access-token')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);

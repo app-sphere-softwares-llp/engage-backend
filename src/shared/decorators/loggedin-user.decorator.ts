@@ -1,5 +1,11 @@
-import { createParamDecorator } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { User } from '@/users/users.schema';
 
-export const LoggedInUser = createParamDecorator((data, req) => {
-  return req.user;
+
+/**
+ * get current user from request object
+ * @type {(...dataOrPipes: Type<PipeTransform> | PipeTransform | any[]) => ParameterDecorator}
+ */
+export const LoggedInUser = createParamDecorator((data, context: ExecutionContext): Partial<User> => {
+  return context.switchToHttp().getRequest().user;
 });

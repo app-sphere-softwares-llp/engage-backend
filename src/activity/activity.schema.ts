@@ -1,14 +1,14 @@
-import { BaseSchema } from '@/shared/schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { DEFAULT_SCHEMA_OPTIONS } from '@/shared/constants';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { Project } from '@/projects/projects.schema';
 import { User } from '@/users/users.schema';
 import { ScreenShot } from '@/screenshot/screenshot.schema';
 import { ActivityTypeEnum } from '@/shared/enums/activity/activity.enum';
+import { generateUtcDate } from '@/shared/utils';
 
 @Schema(DEFAULT_SCHEMA_OPTIONS)
-export class Activity extends BaseSchema{
+export class Activity extends Document {
   @Prop()
   name: string;
 
@@ -16,10 +16,10 @@ export class Activity extends BaseSchema{
   details: string;
 
   @Prop({ ref: Project.name })
-  projectId: Types.ObjectId
+  projectId: Types.ObjectId;
 
   @Prop({ ref: ScreenShot.name })
-  screenShotAttachmentId: Types.ObjectId
+  screenShotAttachmentId: Types.ObjectId;
 
   @Prop()
   startedAt: Date;
@@ -47,6 +47,24 @@ export class Activity extends BaseSchema{
 
   @Prop({ required: ['Created by is required'], ref: User.name })
   createdById: Types.ObjectId;
+
+  @Prop({ ref: 'User' })
+  updatedById: Types.ObjectId;
+
+  @Prop({ default: false })
+  isDeleted: boolean;
+
+  @Prop({ ref: 'User' })
+  deletedById: Types.ObjectId;
+
+  @Prop()
+  deletedAt: Date;
+
+  @Prop({ default: 1 })
+  version: number;
+
+  @Prop({ default: generateUtcDate() })
+  lastSyncTime: Date;
 }
 
 export const ActivitySchema = SchemaFactory.createForClass(Activity);

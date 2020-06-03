@@ -5,9 +5,9 @@ import { requiredField } from '@/shared/utils/validation-errors.utils';
 export class LoginUserDto {
   @IsNotEmpty({ message: () => requiredField('email') })
   @IsString()
-  // @IsEmail()
+  @IsEmail()
   @ApiProperty()
-  readonly email: string;
+  readonly emailId: string;
 
   @IsNotEmpty({ message: 'Password is required' })
   @IsString()

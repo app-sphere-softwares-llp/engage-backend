@@ -6,10 +6,22 @@ import { CreateProjectDto } from '@/projects/dto/create-project-dto';
 import { User } from '@/users/users.schema';
 import { generateUtcDate } from '@/shared/utils';
 import { QueryModel } from '@/shared/models';
+import { OnModuleInit } from '@nestjs/common';
+import { UsersService } from '@/users/users.service';
+import { ModuleRef } from '@nestjs/core';
 
-export class ProjectsService extends BaseService<Project> {
-  constructor(@InjectModel(Project.name) protected readonly projectModel: Model<Project>) {
+export class ProjectsService extends BaseService<Project> implements OnModuleInit {
+  private userService: UsersService;
+
+  constructor(
+    @InjectModel(Project.name) protected readonly projectModel: Model<Project>,
+    private moduleRef: ModuleRef,
+  ) {
     super(projectModel);
+  }
+
+  onModuleInit(): any {
+    this.userService = this.moduleRef.get(UsersService.name, { strict: false });
   }
 
   /**
@@ -18,15 +30,40 @@ export class ProjectsService extends BaseService<Project> {
    * @param createProjectDto
    * @param loggedInUser
    */
-  async createProject(createProjectDto: CreateProjectDto, loggedInUser: User): Promise<Project> {
+  async createProject(createProjectDto: CreateProjectDto, loggedInUser: Partial<User>): Promise<Project> {
     const newProject = await this.withRetrySession(async (session: ClientSession) => {
 
-      const project = new this.projectModel(createProjectDto);
-      project.createdById = loggedInUser._id;
-      project.startDate = project.startDate || generateUtcDate();
-      project.version = 1;
+      const projectModel = new this.projectModel(createProjectDto);
+      projectModel.createdById = loggedInUser._id;
+      projectModel.startDate = projectModel.startDate || generateUtcDate();
+      projectModel.version = 1;
 
-      return await this.create(project, session);
+      // create project
+      const project = await this.create(projectModel, session) as Project;
+
+      // add project to user's project's array and set it as user's current project
+      await this.userService.addProject(loggedInUser._id, project[0]._id, session);
+
+      return project[0];
+    });
+
+    // return new created project
+    return this.getProjectDetailsById(newProject._id);
+  }
+
+  async updateProject(createProjectDto: CreateProjectDto, loggedInUser: Partial<User>): Promise<Project> {
+    const newProject = await this.withRetrySession(async (session: ClientSession) => {
+
+      const projectModel = new this.projectModel(createProjectDto);
+      projectModel.createdById = loggedInUser._id;
+      projectModel.startDate = projectModel.startDate || generateUtcDate();
+      projectModel.version = 1;
+
+      // create project
+      const project = await this.create(projectModel, session) as Project;
+
+      // add project to user's project's array and set it as user's current project
+      await this.userService.addProject(loggedInUser._id, project._id, session);
     });
 
     return this.findById(newProject[0].id);
@@ -46,6 +83,7 @@ export class ProjectsService extends BaseService<Project> {
       query.populate = [];
     }
 
+    // find project by id
     return this.findById(
       projectId, query,
     );

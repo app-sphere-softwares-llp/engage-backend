@@ -19,6 +19,7 @@ import { AttachmentModule } from './attachment/attachment.module';
 import { ScreenshotModule } from './screenshot/screenshot.module';
 import * as path from 'path';
 import i18next from 'i18next';
+import Backend from 'i18next-fs-backend';
 
 
 @Module({
@@ -37,17 +38,17 @@ import i18next from 'i18next';
         }),
       ],
     }),
-    // I18nModule.forRoot({
-    //   fallbackLanguage: 'en',
-    //   parser: I18nJsonParser,
-    //   parserOptions: {
-    //     path: path.join(`${__dirname}/i18n/`),
-    //     watch: true,
-    //   },
-    //   resolvers: [
-    //     new HeaderResolver(['x-local-lang']),
-    //   ],
-    // }),
+    I18nModule.forRoot({
+      fallbackLanguage: 'en',
+      parser: I18nJsonParser,
+      parserOptions: {
+        path: path.join(`${__dirname}/i18n/`),
+        watch: true,
+      },
+      resolvers: [
+        new HeaderResolver(['x-local-lang']),
+      ],
+    }),
     UsersModule,
     ProjectsModule,
     AuthModule,
@@ -68,10 +69,16 @@ import i18next from 'i18next';
 export class AppModule {
 
   constructor() {
-    i18next.init({
+    i18next.use(Backend).init({
+      fallbackLng: DEFAULT_TRANSLATION_LANGUAGE,
       lng: DEFAULT_TRANSLATION_LANGUAGE,
       debug: true,
-      ns: ['']
+      ns: 'tl',
+      defaultNS: 'tl',
+      backend: {
+        loadPath: path.join(__dirname, 'i18n/{{lng}}/{{ns}}.json')
+      },
+      keySeparator: '.'
     })
   }
 

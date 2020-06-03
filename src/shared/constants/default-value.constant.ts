@@ -1,5 +1,8 @@
 import { SchemaOptions } from '@nestjs/mongoose';
 
+// default salt rounds for hashing the password
+export const HASH_PASSWORD_SALT_ROUNDS = 10;
+
 // jwt secret key
 export const JWT_SECRET_KEY = 'engage';
 

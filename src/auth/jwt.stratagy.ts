@@ -25,8 +25,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) implements OnModuleI
     const userDetails = await this.userService
       .getUserByEmailId(payload.sub);
     if (!userDetails) {
-      this._generalService.userId = null;
-      this._generalService.userType = null;
       throw new UnauthorizedException();
     }
     return {

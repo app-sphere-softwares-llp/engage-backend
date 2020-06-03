@@ -14,7 +14,7 @@ export class ActivityService extends BaseService<Activity> {
     super(activityModel);
   }
 
-  async createActivity(createActivityDto: CreateActivityDto, loggedInUser: User): Promise<Activity> {
+  async createActivity(createActivityDto: CreateActivityDto, loggedInUser: Partial<User>): Promise<Activity> {
     const activity: Activity = new this.activityModel(createActivityDto);
     activity.createdById = loggedInUser._id;
 

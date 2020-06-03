@@ -11,7 +11,7 @@ import { MongoError } from 'mongodb';
 import { Error } from 'mongoose';
 import { Logger } from 'winston';
 import { BaseResponseModel } from '@/shared/models';
-import { I18nRequestScopeService, I18nService } from 'nestjs-i18n';
+import i18next from 'i18next';
 
 @Catch()
 @Injectable()
@@ -104,15 +104,15 @@ export class GenericExceptionFilter implements ExceptionFilter {
     respModel.data = null;
     respModel.hasError = true;
 
-    const tKey = respModel.errors[0].message.split('{')[0];
-    if (tKey.trim()) {
-      respModel.message = await this.i18nService.translate('VALIDATION_ERRORS.REQUIRED', {
-        lang: 'en',
-        // args: { field: respModel.errors[0].message.match(/\{([^}]+)\}/)[1] },
-      });
-    } else {
-      respModel.message = respModel.errors[0].message;
-    }
+    // const tKey = respModel.errors[0].message.split('{')[0];
+    // if (tKey.trim()) {
+    //   respModel.message = await this.i18nService.translate('VALIDATION_ERRORS.REQUIRED', {
+    //     lang: 'en',
+    //     // args: { field: respModel.errors[0].message.match(/\{([^}]+)\}/)[1] },
+    //   });
+    // } else {
+    respModel.message = i18next.t('VALIDATION_ERRORS.REQUIRED', { field: 'email', keySeparator: '.' });
+    // }
     return response.status(respModel.status).json(respModel);
   }
 

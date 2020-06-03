@@ -1,5 +1,6 @@
 {
   "VALIDATION_ERRORS": {
     "REQUIRED": "{field} es requerido"
-  }
+  },
+  "ERROR": "{field} es requerido"
 }

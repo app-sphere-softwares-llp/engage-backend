@@ -11,7 +11,7 @@ export class RegisterUserDto {
   @IsString()
   @IsEmail()
   @ApiProperty()
-  readonly email: string;
+  readonly emailId: string;
 
   @IsNotEmpty({ message: 'Mobile No is required' })
   @IsString()
