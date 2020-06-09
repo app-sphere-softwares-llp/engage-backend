@@ -4,7 +4,6 @@ import { LoginUserDto } from '@/auth/dto/login-user-dto';
 import { AuthService } from '@/auth/auth.service';
 import { RegisterUserDto } from '@/auth/dto/register-user-dto';
 
-@ApiBearerAuth()
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {

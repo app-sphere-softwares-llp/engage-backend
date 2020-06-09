@@ -27,13 +27,13 @@ export class ProjectsService extends BaseService<Project> implements OnModuleIni
   /**
    * createProject
    * creates a new project with minimum required properties
-   * @param createProjectDto
+   * @param dto
    * @param loggedInUser
    */
-  async createProject(createProjectDto: CreateProjectDto, loggedInUser: Partial<User>): Promise<Project> {
+  async createProject(dto: CreateProjectDto, loggedInUser: Partial<User>): Promise<Project> {
     const newProject = await this.withRetrySession(async (session: ClientSession) => {
 
-      const projectModel = new this.projectModel(createProjectDto);
+      const projectModel = new this.projectModel(dto);
       projectModel.createdById = loggedInUser._id;
       projectModel.startDate = projectModel.startDate || generateUtcDate();
       projectModel.version = 1;
@@ -51,22 +51,34 @@ export class ProjectsService extends BaseService<Project> implements OnModuleIni
     return this.getProjectDetailsById(newProject._id);
   }
 
-  async updateProject(createProjectDto: CreateProjectDto, loggedInUser: Partial<User>): Promise<Project> {
+  /**
+   * editProject
+   * edits basic property of project
+   * @param dto
+   * @param {Partial<User>} loggedInUser
+   * @return {Promise<Project>}
+   */
+  async editProject(dto: CreateProjectDto, loggedInUser: Partial<User>): Promise<Project> {
     const newProject = await this.withRetrySession(async (session: ClientSession) => {
 
-      const projectModel = new this.projectModel(createProjectDto);
-      projectModel.createdById = loggedInUser._id;
-      projectModel.startDate = projectModel.startDate || generateUtcDate();
-      projectModel.version = 1;
+      const projectModel = new this.projectModel(dto);
+      projectModel.updatedById = loggedInUser._id;
 
-      // create project
-      const project = await this.create(projectModel, session) as Project;
-
-      // add project to user's project's array and set it as user's current project
-      await this.userService.addProject(loggedInUser._id, project._id, session);
+      // edit project
+      return await this.updateById(dto.id.toHexString(), projectModel, session) as Project;
     });
 
     return this.findById(newProject[0].id);
+  }
+
+  /**
+   * update project
+   * @param {Partial<Project>} project
+   * @param {ClientSession} session
+   * @return {Promise<Project>}
+   */
+  async updateProject(project: Partial<Project>, session: ClientSession): Promise<Project> {
+    return this.updateById(project._id, project, session);
   }
 
   /**

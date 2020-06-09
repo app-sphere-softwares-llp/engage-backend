@@ -27,7 +27,7 @@ export class CreateActivityDto {
   @ApiProperty()
   startDate: Date;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ groups: ['end-activity'] })
   @IsDate()
   @ApiProperty()
   endDate: Date;

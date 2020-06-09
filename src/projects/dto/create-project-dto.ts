@@ -1,7 +1,16 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Types } from 'mongoose';
+import { Transform } from 'class-transformer';
+import { toObjectId } from '@/shared/utils';
 
 export class CreateProjectDto {
+
+  @IsNotEmpty({ groups: ['update'] })
+  @Transform(toObjectId, { groups: ['update'] })
+  @IsMongoId({ groups: ['update'] })
+  readonly id: Types.ObjectId;
+
   @IsNotEmpty({ message: 'Name is required' })
   @IsString()
   @ApiProperty()
