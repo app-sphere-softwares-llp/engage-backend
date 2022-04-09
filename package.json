@@ -37,7 +37,7 @@
     "i18next": "^19.4.4",
     "i18next-fs-backend": "^1.0.3",
     "lodash": "^4.17.15",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "mongoose": "^5.9.14",
     "nest-winston": "^1.3.4",
     "nestjs-easyconfig": "^1.8.12",
